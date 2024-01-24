@@ -4,6 +4,17 @@ function getUserInput(message) {
   return rs.question(message);
 }
 
+function getValidNumberInput(message) {
+  while (true) {
+    var input = getUserInput(message);
+    var number = parseFloat(input);
+    if (!isNaN(number)) {
+      return number;
+    }
+    console.log("This is not a number");
+  }
+}
+
 function performOperation(operator, num1, num2) {
   switch (operator) {
     case "+":
@@ -16,43 +27,33 @@ function performOperation(operator, num1, num2) {
       if (num2 !== 0) {
         return num1 / num2;
       } else {
-        return "Error: Cannot divide by zero";
+        return "Error -- The reason that the result of a division by zero is undefined is the fact that any attempt at a definition leads to a contradiction.";
       }
     default:
       return "Invalid operation";
   }
 }
 
-function calculator() {
-  var validOperators = ["+", "-", "*", "/"];
+var  validOperators = ["+", "-", "*", "/"];
 
+function calculator() {
   while (true) {
     var operator = getUserInput("What operation would you like to perform? ");
     if (!validOperators.includes(operator)) {
       console.log("That is not a valid operation");
       continue;
     }
-    var firstNumberInput = parseFloat(
-      getUserInput("Please enter the first number: ")
-    );
-    if (isNaN(firstNumberInput)) {
-      console.log("This is not a number");
-      continue;
-    }
-    var firstNumber = parseFloat(firstNumberInput);
-    var secondNumberInput = parseFloat(
-      getUserInput("Please enter the second number: ")
-    );
-    if (isNaN(secondNumberInput)) {
-      console.log("This is not a number");
-      continue;
-    }
-    var secondNumber = parseFloat(secondNumberInput);
+
+    var firstNumber = getValidNumberInput("Please enter the first number: ");
+    var secondNumber = getValidNumberInput("Please enter the second number: ");
+
     var result = performOperation(operator, firstNumber, secondNumber);
     console.log(`The result is: ${result}`);
+
     var again = getUserInput(
       "Do you want to perform another calculation? (yes to continue / anything else to log out): "
-    ).toLowerCase();
+    );
+    
     if (again !== "yes") {
       break;
     }
